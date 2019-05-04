@@ -13,7 +13,6 @@ services:
 
   mongo_database:
     image: mongo:latest
-    conatiner_name: timesheet_db
     ports:
       - 27017:27017
     volumes:
