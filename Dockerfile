@@ -1,4 +1,11 @@
 FROM openjdk:8u111-jdk-alpine
-VOLUME /tmp
-ADD /target/*.jar app.jar
-ENTRYPOINT ["java", "-Dspring.data.mongodb.uri=mongodb://spring-demo-mongo/users", "-jar", "/app.jar"]
+
+RUN apk update && apk add bash
+
+RUN mkdir -p /timesheet
+ENV PROJECT_HOME /timesheet
+
+WORKDIR $PROJECT_HOME
+
+ADD /target/*.jar ./timesheet_app.jar
+ENTRYPOINT ["java", "-Dspring.data.mongodb.uri=mongodb://spring-demo-mongo/users", "-jar", "./timesheet_app.jar"]
