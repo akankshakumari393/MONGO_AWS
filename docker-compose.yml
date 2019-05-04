@@ -13,6 +13,7 @@ services:
 
   mongo_database:
     image: mongo:latest
+    container_name: spring-demo-mongo
     ports:
       - 27017:27017
     volumes:
