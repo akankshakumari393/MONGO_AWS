@@ -50,7 +50,7 @@ public class EmployeeController {
 	}
 	
 	
-	@ApiOperation(value = "Create a new Employee", notes = "Creates    a new     Employee")
+	@ApiOperation(value = "Create a new Employee", notes = "Creates a new Employee")
 	@PostMapping("/employees")
 	public ResponseEntity<?> newEmployee(@RequestBody EmployeeView employeeView) throws URISyntaxException{
 		//System.out.println("calling post method");
