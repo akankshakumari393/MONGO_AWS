@@ -10,4 +10,4 @@ WORKDIR $PROJECT_HOME
 
 
 ADD /target/*.jar ./timesheet_app.jar
-ENTRYPOINT ["java", "-Dspring.data.mongodb.uri=mongodb://spring-demo-mongo/users", "-jar", "./timesheet_app.jar"]
+ENTRYPOINT ["java", "-Dspring.data.mongodb.uri=mongodb://mongo-service/users", "-jar", "./timesheet_app.jar"]
