@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-deployment
+spec:
+  selector:
+    matchLabels:
+      name: mongo-deployment
+  replicas: 1
+  template:
+    metadata:
+      name: mongo-deployment
+      labels:
+        name: mongo-deployment
+    spec:
+      containers:
+        - name: mongodb
+          image: 135566327923.dkr.ecr.us-east-1.amazonaws.com/akanksha_repository:db
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 27017

@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  tls:
+  - hosts:
+    - akankshakumari.xyz
+    secretName: tls-secret
+  rules:
+    - host: "app.akankshakumari.xyz"
+      http:
+        paths:
+          - path: /*
+            backend:                         
+              serviceName: timesheet-service    
+              servicePort: 8080
