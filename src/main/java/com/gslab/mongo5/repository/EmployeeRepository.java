@@ -12,8 +12,12 @@ import com.gslab.mongo5.model.Employee;
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 
 	public Optional<Employee> findByid(String id);
+
 	public void deleteByid(String id);
+
 	public List<Employee> findByManager(String name);
+
 	public Employee findFirstByid(String id);
+
 	public Employee findFirstByName(String managerId);
 }

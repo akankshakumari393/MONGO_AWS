@@ -29,46 +29,43 @@ import com.gslab.mongo5.service.RoleService;
 import com.gslab.mongo5.view.EmployeeView;
 
 @RestController
-@RequestMapping("/mongo-api")
 public class RoleController {
 
-	@Autowired 
+	@Autowired
 	RoleService roleService;
-	
+
 	@Autowired
 	RoleResourceAssembler roleAssembler;
-	
+
 	@Autowired
 	EmployeeResourceAssembler employeeAssembler;
-	
+
 	@GetMapping("/roles")
 	public Resources<Resource<Role>> getAllRole() {
-	   //System.out.println("getting all role");
+		// System.out.println("getting all role");
 		List<Role> role = roleService.getAllRole();
-		
-		List<Resource<Role>> roles = role.stream()
-				.map(roleAssembler::toResource)
-				.collect(Collectors.toList());
-		//System.out.println("Going to get all role");
-		return new Resources<>(roles, 
-				linkTo(methodOn(RoleController.class).getAllRole()).withSelfRel());
+
+		List<Resource<Role>> roles = role.stream().map(roleAssembler::toResource).collect(Collectors.toList());
+		// System.out.println("Going to get all role");
+		return new Resources<>(roles, linkTo(methodOn(RoleController.class).getAllRole()).withSelfRel());
 	}
-	
+
 	@PostMapping("/roles")
 	public ResponseEntity<?> newRole(@RequestBody Role role) throws URISyntaxException {
-		
+
 		Role savedRole = roleService.addRole(role);
 		Resource<Role> resource = roleAssembler.toResource(savedRole);
-		   
+
 		return ResponseEntity.created(new URI(resource.getId().expand(savedRole.getId()).getHref())).body(resource);
-		
+
 	}
-	
+
 	@GetMapping("/roles/{id}")
 	public Resource<Role> getRole(@PathVariable String id) {
-		//System.out.println("in getting role with id"+ id);
+		// System.out.println("in getting role with id"+ id);
 		Role role = roleService.getRole(id);
-		//System.out.println("role id: "+role.get_id()+"role name  :"+ role.getRolename());
+		// System.out.println("role id: "+role.get_id()+"role name :"+
+		// role.getRolename());
 		return roleAssembler.toResource(role);
 	}
 
@@ -79,11 +76,9 @@ public class RoleController {
 
 		Resource<Role> resource = roleAssembler.toResource(updatedRole);
 
-		return ResponseEntity
-			.created(new URI(resource.getId().expand(updatedRole.getId()).getHref()))
-			.body(resource);
+		return ResponseEntity.created(new URI(resource.getId().expand(updatedRole.getId()).getHref())).body(resource);
 	}
-	
+
 	@DeleteMapping("/roles/{id}")
 	ResponseEntity<?> deleteRole(@PathVariable String id) {
 
@@ -91,18 +86,16 @@ public class RoleController {
 
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/roles/{id}/employees")
 	public Resources<Resource<EmployeeView>> getEmployeesByRole(@PathVariable String id) {
 
 		List<Employee> employee = roleService.getEmployeesByRoleId(id);
-		
-		List<Resource<EmployeeView>> employees = employee.stream()
-				.map(employeeAssembler::toResource)
+
+		List<Resource<EmployeeView>> employees = employee.stream().map(employeeAssembler::toResource)
 				.collect(Collectors.toList());
-		//System.out.println("Going to get all employee");
-		return new Resources<>(employees, 
-				linkTo(methodOn(EmployeeController.class).getAllEmployee()).withSelfRel());
+		// System.out.println("Going to get all employee");
+		return new Resources<>(employees, linkTo(methodOn(EmployeeController.class).getAllEmployee()).withSelfRel());
 	}
 
 }
