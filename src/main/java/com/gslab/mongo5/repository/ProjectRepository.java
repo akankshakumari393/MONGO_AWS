@@ -11,7 +11,9 @@ import com.gslab.mongo5.model.Project;
 public interface ProjectRepository extends MongoRepository<Project, String> {
 
 	public Optional<Project> findByid(String id);
+
 	public void deleteByid(String id);
-	///@Query("{ 'projectName': ?0}")
+
+	/// @Query("{ 'projectName': ?0}")
 	public Project findFirstByProjectName(String projectName);
 }

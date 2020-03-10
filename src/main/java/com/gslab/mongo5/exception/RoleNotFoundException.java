@@ -1,8 +1,7 @@
 package com.gslab.mongo5.exception;
 
+public class RoleNotFoundException extends RuntimeException {
 
-public class RoleNotFoundException extends RuntimeException{
-	
 	/**
 	 * 
 	 */

@@ -12,11 +12,10 @@ import com.gslab.mongo5.model.Holiday;
 @Repository
 public interface HolidayRepository extends MongoRepository<Holiday, String> {
 
-	//public Optional<Holiday> findFirstByYear(String year);
+	// public Optional<Holiday> findFirstByYear(String year);
 
 	public void deleteByDate(String date);
-	
+
 	public List<Holiday> findByDateLike(String regex);
-   
-	
+
 }

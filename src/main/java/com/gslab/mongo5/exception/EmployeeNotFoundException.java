@@ -1,7 +1,7 @@
 package com.gslab.mongo5.exception;
 
-public class EmployeeNotFoundException extends RuntimeException{
-	
+public class EmployeeNotFoundException extends RuntimeException {
+
 	/**
 	 * 
 	 */

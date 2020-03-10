@@ -1,7 +1,7 @@
 package com.gslab.mongo5.exception;
 
-public class HolidayNotFoundException extends RuntimeException{
-	
+public class HolidayNotFoundException extends RuntimeException {
+
 	/**
 	 * 
 	 */

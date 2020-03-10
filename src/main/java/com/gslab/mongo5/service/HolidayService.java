@@ -8,31 +8,31 @@ import com.gslab.mongo5.repository.HolidayRepository;
 
 @Service
 public class HolidayService {
-    
+
 	@Autowired
 	HolidayRepository holidayRepository;
-	
+
 	public HolidayService(HolidayRepository holidayRepository) {
-		this.holidayRepository=holidayRepository;
+		this.holidayRepository = holidayRepository;
 	}
 
 	public List<Holiday> getAllHoliday() {
 		return (List<Holiday>) holidayRepository.findAll();
 	}
-	
+
 	public Holiday addHoliday(Holiday holiday) {
 		return holidayRepository.save(holiday);
 	}
-	
+
 	public List<Holiday> getHolidaysByYear(String year) {
 		// TODO Auto-generated method stub
-		List<Holiday> holiday = holidayRepository.findByDateLike("*-"+year);
+		List<Holiday> holiday = holidayRepository.findByDateLike("*-" + year);
 		return holiday;
 	}
 
 	public List<Holiday> getHolidaysByYearMonth(String year, String mM) {
 		// TODO Auto-generated method stub
-		List<Holiday> holiday = holidayRepository.findByDateLike("*-"+mM+"-"+year);
+		List<Holiday> holiday = holidayRepository.findByDateLike("*-" + mM + "-" + year);
 		return holiday;
 	}
 

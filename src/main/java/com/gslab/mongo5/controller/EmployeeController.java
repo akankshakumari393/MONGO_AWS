@@ -29,39 +29,34 @@ import com.gslab.mongo5.view.EmployeeView;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/mongo-api")
 public class EmployeeController {
 
-	@Autowired 
+	@Autowired
 	EmployeeService employeeService;
-	
+
 	@Autowired
 	EmployeeResourceAssembler employeeAssembler;
-	
+
 	@ApiOperation(value = "Get Employees List", notes = "Fetch All Employees")
 	@GetMapping("/employees")
 	public Resources<Resource<EmployeeView>> getAllEmployee() {
 		List<Employee> employee = employeeService.getAllEmployee();
-		List<Resource<EmployeeView>> employees = employee.stream()
-				.map(employeeAssembler::toResource)
+		List<Resource<EmployeeView>> employees = employee.stream().map(employeeAssembler::toResource)
 				.collect(Collectors.toList());
-		return new Resources<>(employees, 
-				linkTo(methodOn(EmployeeController.class).getAllEmployee()).withSelfRel());
+		return new Resources<>(employees, linkTo(methodOn(EmployeeController.class).getAllEmployee()).withSelfRel());
 	}
-	
-	
+
 	@ApiOperation(value = "Create a new Employee", notes = "Creating a new Employee")
 	@PostMapping("/employees")
-	public ResponseEntity<?> newEmployee(@RequestBody EmployeeView employeeView) throws URISyntaxException{
-		//System.out.println("calling post method");
+	public ResponseEntity<?> newEmployee(@RequestBody EmployeeView employeeView) throws URISyntaxException {
+		// System.out.println("calling post method");
 		Employee savedEmployee = employeeService.addEmployee(employeeView);
-		//System.out.println("Got saved Employee");
+		// System.out.println("Got saved Employee");
 		Resource<EmployeeView> resource = employeeAssembler.toResource(savedEmployee);
-		//System.out.println("Converting to resource and returning");
+		// System.out.println("Converting to resource and returning");
 		return ResponseEntity.created(new URI(resource.getId().expand(savedEmployee.getId()).getHref())).body(resource);
 	}
-	
-	
+
 	@ApiOperation(value = "Get Employee By ID", notes = "Fetch a single Employee")
 	@GetMapping("/employees/{id}")
 	public Resource<EmployeeView> getEmployee(@PathVariable String id) {
@@ -71,31 +66,29 @@ public class EmployeeController {
 
 	@ApiOperation(value = "Update Employee By ID", notes = "Updating the employee details")
 	@PutMapping("/employees/{id}")
-	ResponseEntity<?> replaceEmployee(@RequestBody EmployeeView newEmployee, @PathVariable String id) throws URISyntaxException {
+	ResponseEntity<?> replaceEmployee(@RequestBody EmployeeView newEmployee, @PathVariable String id)
+			throws URISyntaxException {
 		Employee updatedEmployee = employeeService.updateEmployee(newEmployee, id);
 		Resource<EmployeeView> resource = employeeAssembler.toResource(updatedEmployee);
-		return ResponseEntity
-			.created(new URI(resource.getId().expand(updatedEmployee.getId()).getHref()))
-			.body(resource);
+		return ResponseEntity.created(new URI(resource.getId().expand(updatedEmployee.getId()).getHref()))
+				.body(resource);
 	}
-	
+
 	@ApiOperation(value = "Delete Employee By ID", notes = "Delete a single Employee")
 	@DeleteMapping("/employees/{id}")
 	ResponseEntity<?> deleteEmployee(@PathVariable String id) {
 		employeeService.deleteEmployee(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/employees/{id}/subordinateEmployees")
 	public Resources<Resource<EmployeeView>> getEmployeesUnderManagerId(@PathVariable String id) {
 
-		List<Employee> employee =  employeeService.getEmployeesUnderManagerId(id);
-		
-		List<Resource<EmployeeView>> employees = employee.stream()
-				.map(employeeAssembler::toResource)
+		List<Employee> employee = employeeService.getEmployeesUnderManagerId(id);
+
+		List<Resource<EmployeeView>> employees = employee.stream().map(employeeAssembler::toResource)
 				.collect(Collectors.toList());
-				return new Resources<>(employees, 
-				linkTo(methodOn(EmployeeController.class).getAllEmployee()).withSelfRel());
+		return new Resources<>(employees, linkTo(methodOn(EmployeeController.class).getAllEmployee()).withSelfRel());
 	}
-	
+
 }

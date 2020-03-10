@@ -25,74 +25,67 @@ import com.gslab.mongo5.model.Holiday;
 import com.gslab.mongo5.service.HolidayService;
 
 @RestController
-@RequestMapping("/mongo-api")
 public class HolidayController {
 
-	@Autowired 
+	@Autowired
 	HolidayService holidayService;
-	
+
 	@Autowired
 	HolidayResourceAssembler holidayAssembler;
-		
+
 	@GetMapping("/holidays")
 	public Resources<Resource<Holiday>> getAllHoliday() {
-	   //System.out.println("getting all holiday");
+		// System.out.println("getting all holiday");
 		List<Holiday> holiday = holidayService.getAllHoliday();
-		
-		List<Resource<Holiday>> holidays = holiday.stream()
-				.map(holidayAssembler::toResource)
+
+		List<Resource<Holiday>> holidays = holiday.stream().map(holidayAssembler::toResource)
 				.collect(Collectors.toList());
-		//System.out.println("Going to get all holiday");
-		return new Resources<>(holidays, 
-				linkTo(methodOn(HolidayController.class).getAllHoliday()).withSelfRel());
+		// System.out.println("Going to get all holiday");
+		return new Resources<>(holidays, linkTo(methodOn(HolidayController.class).getAllHoliday()).withSelfRel());
 	}
-	
+
 	@PostMapping("/holidays")
 	public ResponseEntity<?> newHoliday(@RequestBody Holiday holiday) throws URISyntaxException {
-		
+
 		Holiday savedHoliday = holidayService.addHoliday(holiday);
-		//holiday saved
+		// holiday saved
 		System.out.println("holiady saved");
 		Resource<Holiday> resource = holidayAssembler.toResource(savedHoliday);
 		System.out.println("holiady resourced");
 		System.out.println(resource.toString());
-		System.out.println("  "+ resource.getId());
-		return ResponseEntity.created(new URI(resource.getId().expand(savedHoliday.getDate()).getHref())).body(resource);
+		System.out.println("  " + resource.getId());
+		return ResponseEntity.created(new URI(resource.getId().expand(savedHoliday.getDate()).getHref()))
+				.body(resource);
 	}
-	
+
 	@GetMapping("/holidays/{year}")
 	public Resources<Resource<Holiday>> getHolidaysByYear(@PathVariable String year) {
-			List<Holiday> holiday = holidayService.getHolidaysByYear(year);
-			
-			List<Resource<Holiday>> holidays = holiday.stream()
-					.map(holidayAssembler::toResource)
-					.collect(Collectors.toList());
-			//System.out.println("Going to get all holiday");
-			return new Resources<>(holidays, 
-					linkTo(methodOn(HolidayController.class).getAllHoliday()).withSelfRel());
-		}
-	
+		List<Holiday> holiday = holidayService.getHolidaysByYear(year);
+
+		List<Resource<Holiday>> holidays = holiday.stream().map(holidayAssembler::toResource)
+				.collect(Collectors.toList());
+		// System.out.println("Going to get all holiday");
+		return new Resources<>(holidays, linkTo(methodOn(HolidayController.class).getAllHoliday()).withSelfRel());
+	}
+
 	//
 	@GetMapping("/holidays/{year}/{MM}")
 	public Resources<Resource<Holiday>> getHolidaysByYearMonth(@PathVariable String year, @PathVariable String MM) {
-		   //System.out.println("getting all holiday");
-			List<Holiday> holiday = holidayService.getHolidaysByYearMonth(year, MM);
-			
-			List<Resource<Holiday>> holidays = holiday.stream()
-					.map(holidayAssembler::toResource)
-					.collect(Collectors.toList());
-			//System.out.println("Going to get all holiday");
-			return new Resources<>(holidays, 
-					linkTo(methodOn(HolidayController.class).getAllHoliday()).withSelfRel());
-		}
-			
+		// System.out.println("getting all holiday");
+		List<Holiday> holiday = holidayService.getHolidaysByYearMonth(year, MM);
+
+		List<Resource<Holiday>> holidays = holiday.stream().map(holidayAssembler::toResource)
+				.collect(Collectors.toList());
+		// System.out.println("Going to get all holiday");
+		return new Resources<>(holidays, linkTo(methodOn(HolidayController.class).getAllHoliday()).withSelfRel());
+	}
+
 	@DeleteMapping("/holidays/{date}")
 	public ResponseEntity<?> deleteHoliday(@PathVariable String date) {
 		holidayService.deleteHoliday(date);
 		return ResponseEntity.noContent().build();
 	}
-	
-	
+
 	/*
 	 * @PutMapping("/holidays/{date}") ResponseEntity<?> replaceHoliday(@RequestBody
 	 * Holiday newHoliday, @PathVariable String date) throws URISyntaxException {
@@ -105,5 +98,5 @@ public class HolidayController {
 	 * URI(resource.getId().expand(updatedHoliday.getDate()).getHref()))
 	 * .body(resource); }
 	 */
-	
+
 }

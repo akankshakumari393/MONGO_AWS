@@ -11,7 +11,9 @@ import com.gslab.mongo5.model.Role;
 public interface RoleRepository extends MongoRepository<Role, String> {
 
 	public Optional<Role> findByid(String id);
+
 	public void deleteByid(String id);
+
 	public Role findFirstByRoleName(String roleName);
-	
+
 }
