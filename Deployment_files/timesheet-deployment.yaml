@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timesheet-deployment
+spec:
+  selector:
+    matchLabels:
+      name: timesheet-deployment
+  replicas: 1
+  template:
+    metadata:
+      name: timesheet-deployment
+      labels:
+        name: timesheet-deployment
+    spec:
+      containers:
+        - name: timesheet-app
+          image: 135566327923.dkr.ecr.us-east-1.amazonaws.com/akanksha_repository:timesheet-app
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
