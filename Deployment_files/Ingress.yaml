@@ -12,10 +12,10 @@ spec:
     - akankshakumari.xyz
     secretName: tls-secret
   rules:
-    - host: "app.akankshakumari.xyz"
+    - host: "api.akankshakumari.xyz"
       http:
         paths:
-          - path: /*
+          - path: /mongo-api
             backend:                         
               serviceName: timesheet-service    
               servicePort: 8080
