@@ -10,7 +10,7 @@ spec:
   tls:
   - hosts:
     - akankshakumari.xyz
-    secretName: tls-secret
+    secretName: tls-backend
   rules:
     - host: "api.akankshakumari.xyz"
       http:
